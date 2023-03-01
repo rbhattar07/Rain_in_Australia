@@ -50,7 +50,6 @@ fig.show()
 
 
 # Training, Validation & Test Set
-
 from sklearn.model_selection import train_test_split
 
 train_val_df, test_df = train_test_split(raw_df, test_size=0.2, random_state=42)
@@ -59,3 +58,25 @@ train_df, val_df = train_test_split(train_val_df, test_size=0.25, random_state=4
 print('train_df:', train_df.shape)
 print('val_df', val_df.shape)
 print('test_df', test_df.shape)
+
+# Seperating Train, Val & Test data with date & time:
+## Train data < 2015
+## Val Data == 2015
+## Test Data > 2015
+
+year = pd.to_datetime(raw_df.Date).dt.year
+
+train_df = raw_df[year < 2015]
+val_df = raw_df[year == 2015]
+test_df = raw_df[year > 2015]
+
+print(' ')
+print('Updated data sheets: ')
+
+print('train_df:', train_df.shape)
+print('val_df', val_df.shape)
+print('test_df', test_df.shape)
+
+train_df.to_csv('train.csv')
+val_df.to_csv('val.csv')
+test_df.to_csv('test.csv')
