@@ -47,3 +47,15 @@ fig.show()
 
 fig = px.scatter(raw_df, x='WindSpeed3pm', y='Cloud3pm', title='Wind 3pm vs Cloud 3pm', color='RainTomorrow')
 fig.show()
+
+
+# Training, Validation & Test Set
+
+from sklearn.model_selection import train_test_split
+
+train_val_df, test_df = train_test_split(raw_df, test_size=0.2, random_state=42)
+train_df, val_df = train_test_split(train_val_df, test_size=0.25, random_state=42)
+
+print('train_df:', train_df.shape)
+print('val_df', val_df.shape)
+print('test_df', test_df.shape)
