@@ -1,0 +1,8 @@
+Machine Learning Workflow
+Whether we're solving a regression problem using linear regression or a classification problem using logistic regression, the workflow for training a model is exactly the same:
+
+We initialize a model with random parameters (weights & biases).
+We pass some inputs into the model to obtain predictions.
+We compare the model's predictions with the actual targets using the loss function.
+We use an optimization technique (like least squares, gradient descent etc.) to reduce the loss by adjusting the weights & biases of the model
+We repeat steps 1 to 4 till the predictions from the model are good enough.
