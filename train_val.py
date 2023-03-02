@@ -29,3 +29,9 @@ print(train_inputs[categorical_cols].nunique())
 #####
 
 # Imputing Missing Numeric Data
+from sklearn.impute import SimpleImputer
+imputer = SimpleImputer(strategy='mean')
+imputer.fit(train_df[numeric_cols])
+train_df[numeric_cols] = imputer.transform(train_df[numeric_cols])
+
+# Scaling numeric Features
