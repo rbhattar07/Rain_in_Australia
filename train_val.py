@@ -51,9 +51,10 @@ val_inputs[numeric_cols]=scaler.transform(val_inputs[numeric_cols])
 
 print(train_inputs[categorical_cols])
 print(' ')
+
 # Encoding Categorical Features
 from sklearn.preprocessing import OneHotEncoder
-encoder = OneHotEncoder(sparse=False, handle_unknown='ignore')
+encoder = OneHotEncoder(sparse_output=False, handle_unknown='ignore')
 df2 = df[categorical_cols].fillna('unknown')
 encoder.fit(df2)
 encoded_cols = list(encoder.get_feature_names_out(categorical_cols))
@@ -64,3 +65,33 @@ train_inputs[encoded_cols] = encoder.transform(train_inputs[categorical_cols])
 val_inputs[encoded_cols] = encoder.transform(val_inputs[categorical_cols])
 
 print(train_inputs)
+
+# Removing unnecessary columns
+train_inputs.drop(columns=categorical_cols, inplace=True)
+val_inputs.drop(columns=categorical_cols, inplace=True)
+
+# Model Building
+from sklearn.linear_model import LogisticRegression
+model = LogisticRegression(solver='liblinear')
+model.fit(train_inputs[numeric_cols + encoded_cols], train_targets)
+print(model.coef_.tolist())
+print(model.intercept_)
+
+# Generating Predictions
+train_predictions = model.predict(train_inputs)
+print('Train Predictions: ',train_predictions)
+
+# Accuracy Score
+from sklearn.metrics import accuracy_score
+ast =accuracy_score(train_targets,train_predictions)
+print('Accuracy Score: ', ast)
+
+# Confusion Matrix
+from sklearn.metrics import confusion_matrix
+cmt =confusion_matrix(train_targets, train_predictions)
+print('Confusion Matrix: ', cmt)
+
+# Checking on Validation Test set
+val_predictions = model.predict(val_inputs)
+print('Val Predictions:',val_predictions)
+print('Val Accuracy Score: ',accuracy_score(val_targets, val_predictions))
