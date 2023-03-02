@@ -5,6 +5,7 @@ import seaborn as sns
 import matplotlib
 import matplotlib.pyplot as plt
 
+df = pd.read_csv('weatherAUS.csv')
 train_df = pd.read_csv('train.csv')
 val_df = pd.read_csv('val.csv')
 
@@ -31,17 +32,18 @@ print(train_inputs[categorical_cols].nunique())
 # Imputing Missing Numeric Data
 from sklearn.impute import SimpleImputer
 imputer = SimpleImputer(strategy='mean')
-imputer.fit(train_df[numeric_cols])
-train_df[numeric_cols] = imputer.transform(train_df[numeric_cols])
+imputer.fit(df[numeric_cols])
+train_inputs[numeric_cols] = imputer.transform(train_inputs[numeric_cols])
 
-imputer.fit(val_df[numeric_cols])
-val_df[numeric_cols] = imputer.transform(val_df[numeric_cols])
+imputer.fit(df[numeric_cols])
+val_inputs[numeric_cols] = imputer.transform(val_inputs[numeric_cols])
 
 # Scaling numeric Features
 from sklearn.preprocessing import MinMaxScaler
 scaler = MinMaxScaler()
-scaler.fit(train_df[numeric_cols])
-train_df[numeric_cols]=scaler.transform(train_df[numeric_cols])
+scaler.fit(df[numeric_cols])
+train_inputs[numeric_cols] = scaler.transform(train_inputs[numeric_cols])
 
-scaler.fit(val_df[numeric_cols])
-val_df[numeric_cols]=scaler.transform(val_df[numeric_cols])
+scaler.fit(df[numeric_cols])
+val_inputs[numeric_cols]=scaler.transform(val_inputs[numeric_cols])
+
