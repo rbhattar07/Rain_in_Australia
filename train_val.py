@@ -38,3 +38,10 @@ imputer.fit(val_df[numeric_cols])
 val_df[numeric_cols] = imputer.transform(val_df[numeric_cols])
 
 # Scaling numeric Features
+from sklearn.preprocessing import MinMaxScaler
+scaler = MinMaxScaler()
+scaler.fit(train_df[numeric_cols])
+train_df[numeric_cols]=scaler.transform(train_df[numeric_cols])
+
+scaler.fit(val_df[numeric_cols])
+val_df[numeric_cols]=scaler.transform(val_df[numeric_cols])
