@@ -34,4 +34,7 @@ imputer = SimpleImputer(strategy='mean')
 imputer.fit(train_df[numeric_cols])
 train_df[numeric_cols] = imputer.transform(train_df[numeric_cols])
 
+imputer.fit(val_df[numeric_cols])
+val_df[numeric_cols] = imputer.transform(val_df[numeric_cols])
+
 # Scaling numeric Features
