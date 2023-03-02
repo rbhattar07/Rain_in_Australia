@@ -4,6 +4,8 @@ import plotly.express as px
 import seaborn as sns
 import matplotlib
 import matplotlib.pyplot as plt
+from warnings import simplefilter
+simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 
 df = pd.read_csv('weatherAUS.csv')
 train_df = pd.read_csv('train.csv')
@@ -47,3 +49,18 @@ train_inputs[numeric_cols] = scaler.transform(train_inputs[numeric_cols])
 scaler.fit(df[numeric_cols])
 val_inputs[numeric_cols]=scaler.transform(val_inputs[numeric_cols])
 
+print(train_inputs[categorical_cols])
+print(' ')
+# Encoding Categorical Features
+from sklearn.preprocessing import OneHotEncoder
+encoder = OneHotEncoder(sparse=False, handle_unknown='ignore')
+df2 = df[categorical_cols].fillna('unknown')
+encoder.fit(df2)
+encoded_cols = list(encoder.get_feature_names_out(categorical_cols))
+
+print(train_inputs)
+
+train_inputs[encoded_cols] = encoder.transform(train_inputs[categorical_cols])
+val_inputs[encoded_cols] = encoder.transform(val_inputs[categorical_cols])
+
+print(train_inputs)
