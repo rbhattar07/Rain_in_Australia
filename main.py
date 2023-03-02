@@ -20,3 +20,6 @@ categorical_cols = test_inputs.select_dtypes('object').columns.tolist()
 
 print(test_inputs[numeric_cols].describe())
 print(test_inputs[categorical_cols].nunique())
+
+# Imputer
+
