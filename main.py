@@ -7,19 +7,32 @@ import matplotlib.pyplot as plt
 
 test_df = pd.read_csv('test.csv')
 
-input_cols = list(test_df.columns)[1:-1]
-target_col = 'RainTomorrow'
+# Importing the models
+import joblib
+joblib.load('australia_rain.joblib')
 
-test_inputs = test_df[input_cols].copy()
-test_inputs.drop(columns='Date', inplace=True)
-test_targets = test_df[target_col].copy()
+jb_ar_lib = joblib.load('australia_rain.joblib')
 
-# Numeric & Categorical Cols
-numeric_cols = test_inputs.select_dtypes(include=np.number).columns.tolist()
-categorical_cols = test_inputs.select_dtypes('object').columns.tolist()
+# defining input & target columns
+input2 = jb_ar_lib['input_cols']
+target2 = jb_ar_lib['target_col']
+#Defining numeric, categorical & encoded columns
+numeric_cols2 = jb_ar_lib['numeric_cols']
+cat_cols2 = jb_ar_lib['categorical_cols']
+encoded_cols2 = jb_ar_lib['encoded_cols']
 
-print(test_inputs[numeric_cols].describe())
-print(test_inputs[categorical_cols].nunique())
+# imputing missing numeric data
+imputer2 = jb_ar_lib['imputer']
+test_df[numeric_cols2] = imputer2.transform(test_df[numeric_cols2])
+print(test_df[numeric_cols2])
 
-# Imputer
+# Scaling numeric data
+scaler2 = jb_ar_lib['scaler']
+test_df[numeric_cols2]=scaler2.transform(test_df[numeric_cols2])
+print(test_df[numeric_cols2])
 
+# Encoding Categorical columns
+encoder2 = jb_ar_lib['encoder']
+test_df[encoded_cols2] = encoder2.transform(test_df[cat_cols2])
+print(test_df[cat_cols2])
+print(test_df[encoded_cols2])
