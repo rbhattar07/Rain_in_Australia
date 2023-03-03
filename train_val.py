@@ -84,14 +84,36 @@ print('Train Predictions: ',train_predictions)
 # Accuracy Score
 from sklearn.metrics import accuracy_score
 ast =accuracy_score(train_targets,train_predictions)
-print('Accuracy Score: ', ast)
-
-# Confusion Matrix
-from sklearn.metrics import confusion_matrix
-cmt =confusion_matrix(train_targets, train_predictions)
-print('Confusion Matrix: ', cmt)
+print('Train Accuracy Score: ', ast)
 
 # Checking on Validation Test set
 val_predictions = model.predict(val_inputs)
 print('Val Predictions:',val_predictions)
 print('Val Accuracy Score: ',accuracy_score(val_targets, val_predictions))
+
+print('CLasses are:', model.classes_)
+
+# Confusion Matrix
+from sklearn.metrics import confusion_matrix
+#----Train df
+cmt =confusion_matrix(train_targets, train_predictions, normalize='true')
+print('Train Confusion Matrix: ', cmt)
+
+#----Val df
+cmt2 = confusion_matrix(val_targets,val_predictions, normalize='true')
+print('Val Confusion Matrix:', cmt2)
+
+# Saving all the models & accessories
+import joblib
+australia_rain = {
+    'model': model,
+    'imputer':imputer,
+    'scaler':scaler,
+    'encoder':encoder,
+    'input_cols':input_cols,
+    'target_col':target_col,
+    'numeric_cols':numeric_cols,
+    'categorical_cols':categorical_cols,
+    'encoded_cols':encoded_cols
+}
+joblib.dump(australia_rain, 'australia_rain.joblib')
