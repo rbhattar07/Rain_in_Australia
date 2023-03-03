@@ -14,8 +14,8 @@ joblib.load('australia_rain.joblib')
 jb_ar_lib = joblib.load('australia_rain.joblib')
 
 # defining input & target columns
-input2 = jb_ar_lib['input_cols']
-target2 = jb_ar_lib['target_col']
+test_inputs = jb_ar_lib['input_cols']
+test_target = jb_ar_lib['target_col']
 #Defining numeric, categorical & encoded columns
 numeric_cols2 = jb_ar_lib['numeric_cols']
 cat_cols2 = jb_ar_lib['categorical_cols']
@@ -36,3 +36,16 @@ encoder2 = jb_ar_lib['encoder']
 test_df[encoded_cols2] = encoder2.transform(test_df[cat_cols2])
 print(test_df[cat_cols2])
 print(test_df[encoded_cols2])
+
+# Testing the model
+model2 = jb_ar_lib['model']
+
+test_inputs = numeric_cols2+encoded_cols2
+test_target = test_df['RainTomorrow']
+
+test_predictions = model2.predict(test_df[test_inputs])
+print('Test Predictions',test_predictions)
+
+#Accuracy Score
+from sklearn.metrics import accuracy_score
+print(accuracy_score(test_target, test_predictions))

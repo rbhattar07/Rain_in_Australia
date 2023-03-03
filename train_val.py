@@ -117,3 +117,4 @@ australia_rain = {
     'encoded_cols':encoded_cols
 }
 joblib.dump(australia_rain, 'australia_rain.joblib')
+
